@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fokus. — Workspace Tugas Kuliah</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body class="bg-[#F7F5F0] text-stone-800 font-sans antialiased selection:bg-amber-200">
+
+  <!-- CONTAINER UTAMA: w-full h-screen p-[5%] -->
+  <main class="w-full h-screen p-[5%] max-w-full mx-auto flex flex-col gap-4 overflow-hidden">
+
+    <!-- HEADER: PROGRESS TRACKER & RINGKASAN TUGAS -->
+    <header class="grid grid-cols-1 md:grid-cols-12 gap-4 shrink-0">
+      
+      <!-- Panel Progress & Sapaan (8 Kolom) -->
+      <div class="md:col-span-8 bg-white rounded-md p-5 shadow-sm flex flex-col justify-between">
+        <div class="flex flex-wrap justify-between items-start gap-2">
+          <div>
+            <div class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-amber-600">
+              <i id="greet-icon" class="bx bx-sun text-sm"></i>
+              <span id="greeting">SELAMAT DATANG</span>
+              <span class="text-stone-300">·</span>
+              <span id="clock" class="text-stone-400 font-normal">--:-- WIB</span>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight text-stone-900 mt-1">Workspace Tugas Kuliah</h1>
+          </div>
+          <div class="flex gap-2 text-xs font-medium">
+            <button onclick="app.copyTasks()" id="copy-btn" class="px-3 py-1.5 rounded-md bg-stone-100 hover:bg-stone-200 flex items-center gap-1.5 transition">
+              <i class="bx bx-copy"></i> <span>Salin</span>
+            </button>
+            <button onclick="app.shareWA()" class="px-3 py-1.5 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 flex items-center gap-1.5 transition">
+              <i class="bx bxl-whatsapp text-sm"></i> <span>Bagikan WA</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bar Progress Penyelesaian -->
+        <div class="mt-4">
+          <div class="flex justify-between text-xs font-medium text-stone-500 mb-1.5">
+            <span id="progress-text">0 dari 0 tugas selesai</span>
+            <span id="progress-pct" class="font-bold text-stone-800">0%</span>
+          </div>
+          <div class="w-full h-2 bg-stone-100 rounded-md overflow-hidden">
+            <div id="progress-bar" class="h-full bg-amber-600 transition-all duration-500 w-0"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Ringkasan Deadline (4 Kolom — Pengganti Cuaca) -->
+      <div class="md:col-span-4 bg-stone-900 text-stone-100 rounded-md p-5 shadow-sm flex flex-col justify-between">
+        <div class="flex justify-between items-center text-xs text-stone-400">
+          <span class="uppercase tracking-wider font-semibold">Status Tenggat</span>
+          <i class="bx bx-target-lock text-base text-amber-400"></i>
+        </div>
+        <div class="grid grid-cols-2 gap-3 my-2">
+          <div class="bg-stone-800/80 p-3 rounded-md">
+            <div id="stat-open" class="text-2xl font-bold text-amber-400">0</div>
+            <div class="text-[11px] text-stone-400">Tugas Aktif</div>
+          </div>
+          <div class="bg-stone-800/80 p-3 rounded-md">
+            <div id="stat-urgent" class="text-2xl font-bold text-rose-400">0</div>
+            <div class="text-[11px] text-stone-400">Terlambat / Hari Ini</div>
+          </div>
+        </div>
+        <div class="text-[11px] text-stone-400 flex items-center gap-1.5">
+          <i class="bx bx-info-circle"></i>
+          <span>Diurutkan otomatis dari deadline terdekat</span>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- INLINE QUICK-ADD BAR -->
+    <form onsubmit="app.saveTask(event)" class="bg-white p-2.5 rounded-md shadow-sm flex flex-wrap md:flex-nowrap items-center gap-2 shrink-0 text-sm">
+      <input type="hidden" id="t-id">
+      <div class="flex-1 flex items-center bg-stone-50 rounded-md px-3 py-2 focus-within:ring-1 focus-within:ring-amber-600">
+        <i class="bx bx-task text-stone-400 mr-2"></i>
+        <input id="t-title" class="w-full bg-transparent outline-none" placeholder="Ketik judul tugas baru..." required>
+      </div>
+      <div class="w-full md:w-48 flex items-center bg-stone-50 rounded-md px-3 py-2 focus-within:ring-1 focus-within:ring-amber-600">
+        <i class="bx bx-book-bookmark text-stone-400 mr-2"></i>
+        <input id="t-course" class="w-full bg-transparent outline-none" placeholder="Mata Kuliah" required>
+      </div>
+      <input type="date" id="t-deadline" class="w-1/2 md:w-36 bg-stone-50 rounded-md px-3 py-2 text-stone-600 outline-none focus:ring-1 focus:ring-amber-600" required>
+      <select id="t-prio" class="w-1/3 md:w-32 bg-stone-50 rounded-md px-3 py-2 text-stone-600 outline-none focus:ring-1 focus:ring-amber-600">
+        <option value="Tinggi">Prioritas Tinggi</option>
+        <option value="Sedang" selected>Prioritas Sedang</option>
+        <option value="Rendah">Prioritas Rendah</option>
+      </select>
+      <button type="submit" id="submit-btn" class="w-full md:w-auto bg-amber-600 hover:bg-amber-700 text-white font-semibold px-4 py-2 rounded-md flex items-center justify-center gap-1.5 transition shrink-0">
+        <i class="bx bx-plus text-base"></i> <span>Tambah</span>
+      </button>
+    </form>
+
+    <!-- FILTER TAB -->
+    <div class="flex justify-between items-center shrink-0">
+      <div id="filters" class="flex gap-2 text-xs font-medium"></div>
+      <span class="text-xs text-stone-400 hidden sm:inline-flex items-center gap-1">
+        <i class="bx bx-check-circle"></i> Klik kotak ceklis untuk menandai selesai
+      </span>
+    </div>
+
+    <!-- GRID KARTU TUGAS (2 Kolom, Scrollable) -->
+    <section id="task-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 overflow-y-auto pr-1 flex-1 content-start"></section>
+
+  </main>
+
+  <script>
+    const FILTERS = ['Semua', 'Aktif', 'Selesai'];
+
+    // 1. ES6 Class: Storage
+    class Storage {
+      static get = (k, def) => JSON.parse(localStorage.getItem(`fokus:${k}`)) ?? def;
+      static set = (k, v) => localStorage.setItem(`fokus:${k}`, JSON.stringify(v));
+    }
+
+    // 2. ES6 Class: Aplikasi Utama
+    class FokusApp {
+      constructor() {
+        this.tasks = Storage.get('tasks', []);
+        this.filter = 'Semua';
+        this.initClock();
+        this.render();
+      }
+
+      initClock() {
+        const tick = () => {
+          const now = new Date();
+          const hr = now.getHours();
+          const greet = hr < 11 ? ['SELAMAT PAGI', 'bx-sun'] : hr < 15 ? ['SELAMAT SIANG', 'bx-sun'] : hr < 18 ? ['SELAMAT SORE', 'bx-cloud'] : ['SELAMAT MALAM', 'bx-moon'];
+          document.getElementById('greeting').textContent = greet[0];
+          document.getElementById('greet-icon').className = `bx ${greet[1]} text-sm`;
+          document.getElementById('clock').textContent = now.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' }) + ' · ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        };
+        tick(); setInterval(tick, 1000);
+      }
+
+      // CRUD: Simpan / Update Tugas
+      saveTask(e) {
+        e.preventDefault();
+        const id = document.getElementById('t-id').value;
+        const old = this.tasks.find(t => t.id === id);
+        const item = {
+          id: id || Date.now().toString(36),
+          title: document.getElementById('t-title').value,
+          course: document.getElementById('t-course').value,
+          deadline: document.getElementById('t-deadline').value,
+          prio: document.getElementById('t-prio').value,
+          done: old ? old.done : false
+        };
+
+        this.tasks = id ? this.tasks.map(t => t.id === id ? item : t) : [item, ...this.tasks];
+        e.target.reset();
+        document.getElementById('t-id').value = '';
+        document.getElementById('submit-btn').innerHTML = '<i class="bx bx-plus text-base"></i> <span>Tambah</span>';
+        this.sync();
+      }
+
+      editTask(id) {
+        const t = this.tasks.find(x => x.id === id);
+        if (!t) return;
+        document.getElementById('t-id').value = t.id;
+        document.getElementById('t-title').value = t.title;
+        document.getElementById('t-course').value = t.course;
+        document.getElementById('t-deadline').value = t.deadline;
+        document.getElementById('t-prio').value = t.prio;
+        document.getElementById('submit-btn').innerHTML = '<i class="bx bx-check text-base"></i> <span>Update</span>';
+        document.getElementById('t-title').focus();
+      }
+
+      toggleDone(id) {
+        this.tasks = this.tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+        this.sync();
+      }
+
+      deleteTask(id) {
+        this.tasks = this.tasks.filter(t => t.id !== id);
+        this.sync();
+      }
+
+      getFiltered() {
+        return this.tasks
+          .filter(t => this.filter === 'Semua' ? true : this.filter === 'Selesai' ? t.done : !t.done)
+          .sort((a, b) => Number(a.done) - Number(b.done) || a.deadline.localeCompare(b.deadline));
+      }
+
+      formatText() {
+        const list = this.getFiltered();
+        if (!list.length) return 'Belum ada daftar tugas.';
+        return `*DAFTAR TUGAS KULIAH*\n` + list.map(t => `${t.done ? '[Selesai]' : '[Belum]'} *${t.title}* (${t.course}) — DL: ${t.deadline} [${t.prio}]`).join('\n');
+      }
+
+      async copyTasks() {
+        await navigator.clipboard.writeText(this.formatText());
+        const btn = document.getElementById('copy-btn');
+        btn.innerHTML = '<i class="bx bx-check text-emerald-600"></i> <span>Tersalin</span>';
+        setTimeout(() => btn.innerHTML = '<i class="bx bx-copy"></i> <span>Salin</span>', 1500);
+      }
+
+      shareWA() {
+        window.open(`https://wa.me/?text=${encodeURIComponent(this.formatText())}`, '_blank');
+      }
+
+      setFilter(f) { this.filter = f; this.render(); }
+      sync() { Storage.set('tasks', this.tasks); this.render(); }
+
+      render() {
+        const today = new Date().toISOString().split('T')[0];
+        const total = this.tasks.length;
+        const doneCount = this.tasks.filter(t => t.done).length;
+        const openCount = total - doneCount;
+        const urgentCount = this.tasks.filter(t => !t.done && t.deadline <= today).length;
+        const pct = total ? Math.round((doneCount / total) * 100) : 0;
+
+        // Update Statistik & Progress Bar
+        document.getElementById('progress-text').textContent = `${doneCount} dari ${total} tugas selesai`;
+        document.getElementById('progress-pct').textContent = `${pct}%`;
+        document.getElementById('progress-bar').style.width = `${pct}%`;
+        document.getElementById('stat-open').textContent = openCount;
+        document.getElementById('stat-urgent').textContent = urgentCount;
+
+        // Render Filter Buttons
+        document.getElementById('filters').innerHTML = FILTERS.map(f => `
+          <button onclick="app.setFilter('${f}')" class="px-3.5 py-1.5 rounded-md transition ${this.filter === f ? 'bg-stone-900 text-white' : 'bg-white text-stone-500 hover:bg-stone-200/60'}">${f}</button>
+        `).join('');
+
+        const prioConfig = {
+          Tinggi: { cls: 'bg-rose-50 text-rose-700', icon: 'bx-up-arrow-alt' },
+          Sedang: { cls: 'bg-amber-50 text-amber-700', icon: 'bx-minus' },
+          Rendah: { cls: 'bg-stone-100 text-stone-600', icon: 'bx-down-arrow-alt' }
+        };
+
+        const list = this.getFiltered();
+        document.getElementById('task-grid').innerHTML = list.length ? list.map(t => {
+          const isLate = !t.done && t.deadline < today;
+          const p = prioConfig[t.prio] || prioConfig.Sedang;
+          return `
+          <div class="bg-white rounded-md p-4 shadow-sm flex justify-between items-start gap-3 transition hover:shadow ${t.done ? 'opacity-50' : ''}">
+            <div class="flex items-start gap-3">
+              <button onclick="app.toggleDone('${t.id}')" 
+                class="mt-1 w-5 h-5 rounded-md border flex items-center justify-center transition ${t.done ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-stone-300 hover:border-amber-600'}">
+                ${t.done ? '<i class="bx bx-check text-sm"></i>' : ''}
+              </button>
+              <div>
+                <div class="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-700">
+                  <i class="bx bx-book-open"></i> <span>${t.course}</span>
+                </div>
+                <h3 class="font-semibold text-stone-900 text-base leading-snug mt-0.5 ${t.done ? 'line-through' : ''}">${t.title}</h3>
+                <div class="flex flex-wrap items-center gap-2 mt-2 text-xs">
+                  <span class="px-2 py-0.5 rounded-md font-medium inline-flex items-center gap-0.5 ${p.cls}">
+                    <i class="bx ${p.icon}"></i> ${t.prio}
+                  </span>
+                  <span class="inline-flex items-center gap-1 ${isLate ? 'text-rose-600 font-semibold' : 'text-stone-400'}">
+                    <i class="bx ${isLate ? 'bx-error-circle' : 'bx-calendar'}"></i>
+                    ${isLate ? 'Terlambat: ' : ''}${t.deadline}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-1 text-stone-400 shrink-0">
+              <button onclick="app.editTask('${t.id}')" class="p-1.5 rounded-md hover:bg-stone-100 hover:text-stone-800" title="Edit">
+                <i class="bx bx-edit-alt text-base"></i>
+              </button>
+              <button onclick="app.deleteTask('${t.id}')" class="p-1.5 rounded-md hover:bg-rose-50 hover:text-rose-600" title="Hapus">
+                <i class="bx bx-trash text-base"></i>
+              </button>
+            </div>
+          </div>`;
+        }).join('') : `
+          <div class="md:col-span-2 bg-white/60 rounded-md p-12 text-center text-stone-400 text-sm flex flex-col items-center gap-2">
+            <i class="bx bx-Layer text-3xl text-stone-300"></i>
+            <span>Belum ada tugas di kategori ini. Ketik pada baris di atas untuk menambah tugas.</span>
+          </div>`;
+      }
+    }
+
+    const app = new FokusApp();
+  </script>
+</body>
+</html>
