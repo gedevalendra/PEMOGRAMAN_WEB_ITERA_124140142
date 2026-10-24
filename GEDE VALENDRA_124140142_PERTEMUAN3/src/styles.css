@@ -1,0 +1,886 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap');
+
+:root {
+    font-family: 'DM Sans', sans-serif;
+    color: #252820;
+    background: #f7f5f0;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    --ink: #252820;
+    --muted: #77796f;
+    --line: #e4e1d8;
+    --paper: #fffefa;
+    --green: #365b46;
+    --orange: #dc7951
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    min-width: 320px
+}
+
+button,
+input,
+select {
+    font: inherit
+}
+
+button {
+    cursor: pointer
+}
+
+.app-shell {
+    max-width: 1440px;
+    margin: auto;
+    min-height: 100vh;
+    padding: 0 6.2%
+}
+
+.topbar {
+    z-index: 1000;
+    position: sticky;
+    top: 10px;
+    backdrop-filter: blur(8px);
+    padding: 0 20px;
+    border-radius: 100px;
+    background-color: rgba(255, 255, 255, 0.626);
+    height: 86px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    gap: 36px
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -.5px
+}
+
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 37px;
+    height: 37px;
+    background: var(--green);
+    color: #fffefa;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    border-radius: 50%
+}
+
+.navigation {
+    display: flex;
+    gap: 27px;
+    height: 100%;
+    align-items: center
+}
+
+.navigation a {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    position: relative
+}
+
+.navigation a.active {
+    color: var(--ink);
+    font-weight: 700
+}
+
+.navigation a.active:after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--green)
+}
+
+.topbar-note {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 12px
+}
+
+.main-content {
+    padding-bottom: 70px
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    min-height: 300px;
+    padding: 44px 0 30px;
+    position: relative;
+    overflow: hidden
+}
+
+.hero-copy {
+    width: 57%;
+    position: relative;
+    z-index: 1
+}
+
+.eyebrow {
+    font: 500 10px 'DM Mono', monospace;
+    letter-spacing: 1.4px;
+    color: #858578;
+    margin: 0 0 14px
+}
+
+.hero h1,
+.stats-page h1 {
+    font-size: clamp(42px, 5.3vw, 69px);
+    line-height: 1.04;
+    letter-spacing: -2.8px;
+    margin: 0;
+    font-weight: 500
+}
+
+.hero h1 em,
+.stats-page h1 em {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    color: var(--green)
+}
+
+.hero-description,
+.page-intro {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 410px;
+    margin: 20px 0 0
+}
+
+.hero-art {
+    height: 230px;
+    width: 38%;
+    position: absolute;
+    right: 0;
+    bottom: 14px
+}
+
+.art-sun {
+    position: absolute;
+    width: 155px;
+    height: 155px;
+    border-radius: 50%;
+    background: #e9c6a4;
+    right: 50px;
+    top: 10px
+}
+
+.art-book {
+    position: absolute;
+    bottom: 18px;
+    width: 76px;
+    border: 1px solid rgba(37, 40, 32, .18);
+    box-shadow: 5px 7px 0 rgba(37, 40, 32, .08);
+    border-radius: 3px 7px 7px 3px
+}
+
+.book-one {
+    height: 144px;
+    right: 132px;
+    background: #42674f;
+    transform: rotate(-9deg)
+}
+
+.book-two {
+    height: 173px;
+    right: 70px;
+    background: #d77b56;
+    transform: rotate(5deg)
+}
+
+.book-three {
+    height: 124px;
+    right: 17px;
+    background: #d9cba9;
+    transform: rotate(12deg)
+}
+
+.art-star {
+    position: absolute;
+    right: 27px;
+    top: 20px;
+    font-size: 32px;
+    color: var(--green)
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin: 8px 0 45px;
+    padding: 19px 0
+}
+
+.stat-chip {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 23px;
+    border-left: 1px solid var(--line)
+}
+
+.stat-chip:first-child {
+    border: 0;
+    padding-left: 0
+}
+
+.stat-chip span {
+    font-size: 11px;
+    color: var(--muted)
+}
+
+.stat-chip strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 500
+}
+
+.library-layout {
+    display: grid;
+    grid-template-columns: 285px minmax(0, 1fr);
+    gap: 48px
+}
+
+.form-panel {
+    background: #efede5;
+    border: 1px solid #e7e4da;
+    border-radius: 8px;
+    padding: 24px;
+    height: max-content
+}
+
+.form-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px
+}
+
+.form-heading .eyebrow {
+    margin-bottom: 7px
+}
+
+.form-heading h2,
+.section-heading h2,
+.progress-panel h2 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -.6px
+}
+
+.book-form label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    margin: 15px 0 7px
+}
+
+.book-form input,
+.book-form select {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #dcd9ce;
+    background: #fffefa;
+    border-radius: 4px;
+    padding: 0 11px;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none
+}
+
+.book-form input:focus,
+.book-form select:focus,
+.search-field:focus-within {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px #365b4615
+}
+
+.book-form input[aria-invalid="true"] {
+    border-color: #bd4b3e
+}
+
+.field-error {
+    font-size: 11px;
+    color: #b33c32;
+    margin: 5px 0 0
+}
+
+.primary-button {
+    border: 0;
+    background: var(--green);
+    color: #fffefa;
+    border-radius: 4px;
+    padding: 12px 15px;
+    font-size: 12px;
+    font-weight: 600
+}
+
+.primary-button:hover {
+    background: #294735
+}
+
+.form-submit {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 22px
+}
+
+.text-button {
+    background: transparent;
+    border: 0;
+    padding: 4px 0;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700
+}
+
+.delete-button {
+    color: #b24e40
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 22px
+}
+
+.section-heading .eyebrow {
+    margin-bottom: 8px
+}
+
+.section-heading h2 {
+    font-size: 26px
+}
+
+.count-badge {
+    font: 11px 'DM Mono', monospace;
+    background: #e9e7df;
+    color: #65675e;
+    padding: 4px 7px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 5px
+}
+
+.small-caption {
+    font-size: 10px;
+    color: #898a80
+}
+
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px
+}
+
+.search-field {
+    height: 42px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 11px;
+    gap: 9px;
+    flex: 1
+}
+
+.search-field span {
+    font-size: 21px;
+    color: #7b7c72
+}
+
+.search-field input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 12px;
+    color: var(--ink)
+}
+
+.filter-select-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--muted)
+}
+
+.filter-select-label select {
+    border: 1px solid var(--line);
+    height: 42px;
+    background: var(--paper);
+    padding: 0 9px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--ink)
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px
+}
+
+.book-card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+    overflow: hidden;
+    min-width: 0
+}
+
+.book-cover {
+    height: 170px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    color: #fffefa;
+    background: #42674f
+}
+
+.cover-1 {
+    background: #d77b56
+}
+
+.cover-2 {
+    background: #7c8794
+}
+
+.cover-3 {
+    background: #c5b68d;
+    color: #2e3329
+}
+
+.cover-4 {
+    background: #343e36
+}
+
+.cover-label {
+    font: 8px 'DM Mono', monospace;
+    letter-spacing: 1px;
+    opacity: .8
+}
+
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    line-height: 1.15;
+    max-width: 95%;
+    margin-top: auto;
+    overflow-wrap: anywhere
+}
+
+.cover-author {
+    font-size: 9px;
+    margin-top: 9px;
+    opacity: .85
+}
+
+.cover-symbol {
+    position: absolute;
+    right: 10px;
+    top: 32px;
+    font-size: 45px;
+    opacity: .23
+}
+
+.book-details {
+    padding: 13px 14px 12px
+}
+
+.status-pill {
+    display: inline-block;
+    border-radius: 3px;
+    padding: 4px 6px;
+    font-size: 9px;
+    font-weight: 700
+}
+
+.status-milik {
+    background: #e4ede2;
+    color: #3e6848
+}
+
+.status-baca {
+    background: #f5e6cf;
+    color: #8c5c20
+}
+
+.status-beli {
+    background: #e8e5f3;
+    color: #63578f
+}
+
+.book-details h3 {
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 11px 0 4px;
+    overflow-wrap: anywhere
+}
+
+.book-author {
+    font-size: 10px;
+    color: var(--muted);
+    margin: 0;
+    overflow-wrap: anywhere
+}
+
+.card-actions {
+    display: flex;
+    gap: 14px;
+    border-top: 1px solid #efede6;
+    margin-top: 13px;
+    padding-top: 10px
+}
+
+.empty-state {
+    text-align: center;
+    padding: 55px 15px;
+    border: 1px dashed #d8d5ca;
+    border-radius: 6px
+}
+
+.empty-icon {
+    font-size: 34px;
+    color: #aaa99e
+}
+
+.empty-state h3 {
+    font-size: 16px;
+    margin: 10px 0
+}
+
+.empty-state p {
+    font-size: 12px;
+    color: var(--muted)
+}
+
+.notice {
+    padding: 12px 15px;
+    background: #e4ede2;
+    border-left: 3px solid var(--green);
+    font-size: 12px;
+    margin: -20px 0 28px
+}
+
+.footer {
+    border-top: 1px solid var(--line);
+    padding: 20px 0 28px;
+    color: #8b8c82;
+    font-size: 11px
+}
+
+.footer span {
+    padding: 0 7px;
+    color: var(--orange)
+}
+
+.stats-page {
+    padding: 62px 0 30px
+}
+
+.stats-page h1 {
+    font-size: 58px
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 42px 0
+}
+
+.metric-card {
+    padding: 22px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column
+}
+
+.metric-card span {
+    font-size: 11px;
+    color: var(--muted)
+}
+
+.metric-card strong {
+    font: 500 42px 'Playfair Display', serif;
+    margin: 20px 0 8px
+}
+
+.metric-card p {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0
+}
+
+.progress-panel {
+    background: #eeece3;
+    padding: 28px;
+    border-radius: 7px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 25px
+}
+
+.progress-panel h2 {
+    font-size: 23px
+}
+
+.progress-number {
+    font: 500 42px 'Playfair Display', serif;
+    color: var(--green)
+}
+
+.progress-number span {
+    font: 16px 'DM Sans', sans-serif
+}
+
+.progress-track {
+    grid-column: 1/-1;
+    height: 8px;
+    background: #d9d7cd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 12px
+}
+
+.progress-track div {
+    height: 100%;
+    background: var(--green);
+    border-radius: 10px;
+    transition: width .2s
+}
+
+.progress-panel>p {
+    grid-column: 1/-1;
+    font-size: 11px;
+    color: var(--muted);
+    margin: 4px 0 0
+}
+
+@media(max-width:1000px) {
+    .app-shell {
+        padding: 0 4%
+    }
+
+    .library-layout {
+        grid-template-columns: 250px minmax(0, 1fr);
+        gap: 25px
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .hero-art {
+        opacity: .7
+    }
+
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+}
+
+@media(max-width:680px) {
+    .app-shell {
+        padding: 0 5%
+    }
+
+    .topbar {
+        height: 70px;
+        gap: 20px
+    }
+
+    .topbar-note {
+        display: none
+    }
+
+    .navigation {
+        margin-left: auto;
+        gap: 15px
+    }
+
+    .navigation a {
+        font-size: 11px
+    }
+
+    .brand {
+        font-size: 15px
+    }
+
+    .hero {
+        min-height: 280px;
+        padding: 38px 0
+    }
+
+    .hero-copy {
+        width: 100%
+    }
+
+    .hero h1 {
+        font-size: 49px
+    }
+
+    .hero-description {
+        max-width: 300px;
+        font-size: 12px
+    }
+
+    .hero-art {
+        right: -95px;
+        opacity: .25;
+        width: 65%
+    }
+
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+        padding: 17px 0;
+        margin-bottom: 30px
+    }
+
+    .stat-chip,
+    .stat-chip:first-child {
+        padding-left: 13px;
+        border-left: 1px solid var(--line)
+    }
+
+    .stat-chip:nth-child(odd) {
+        padding-left: 0;
+        border-left: 0
+    }
+
+    .stat-chip strong {
+        font-size: 23px
+    }
+
+    .library-layout {
+        grid-template-columns: 1fr;
+        gap: 30px
+    }
+
+    .form-panel {
+        padding: 20px
+    }
+
+    .collection-panel {
+        min-width: 0
+    }
+
+    .section-heading {
+        align-items: start;
+        gap: 12px
+    }
+
+    .small-caption {
+        max-width: 100px;
+        text-align: right;
+        line-height: 1.5
+    }
+
+    .section-heading h2 {
+        font-size: 23px
+    }
+
+    .filter-bar {
+        flex-direction: column
+    }
+
+    .filter-select-label {
+        justify-content: space-between
+    }
+
+    .filter-select-label select {
+        flex: 1
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px
+    }
+
+    .book-cover {
+        height: 145px;
+        padding: 11px
+    }
+
+    .cover-title {
+        font-size: 18px
+    }
+
+    .book-details {
+        padding: 11px
+    }
+
+    .book-details h3 {
+        font-size: 12px
+    }
+
+    .stats-page {
+        padding-top: 45px
+    }
+
+    .stats-page h1 {
+        font-size: 49px
+    }
+
+    .metrics-grid {
+        gap: 9px;
+        margin: 30px 0
+    }
+
+    .metric-card {
+        padding: 15px
+    }
+
+    .metric-card strong {
+        font-size: 34px;
+        margin: 15px 0 6px
+    }
+
+    .progress-panel {
+        padding: 20px
+    }
+
+    .progress-panel h2 {
+        font-size: 18px
+    }
+
+    .footer {
+        font-size: 10px
+    }
+
+}
