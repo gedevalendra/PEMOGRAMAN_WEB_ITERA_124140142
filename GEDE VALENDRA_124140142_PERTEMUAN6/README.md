@@ -100,20 +100,55 @@ kembali setelah pengujian.
 
 ## Dokumentasi Pengujian
 
-### GET Mahasiswa
+Seluruh screenshot hasil percobaan disimpan pada direktori [`image/`](image/).
 
-![Hasil GET Mahasiswa](docs/mahasiswa-get.png)
+### Pengujian Matakuliah dengan cURL
 
-### GET Matakuliah
+#### GET — Menampilkan seluruh Matakuliah
 
-![Hasil GET Matakuliah](docs/matakuliah-get.png)
+![cURL GET seluruh Matakuliah](image/cURL-get-mk.png)
 
-### Seluruh CRUD dan Validasi
+#### GET — Menampilkan detail Matakuliah
 
-![Ringkasan pengujian CRUD](docs/crud-test-report.png)
+![cURL GET detail Matakuliah](image/cURL-getDetail-mk.png)
 
-Laporan lengkap tersedia di
-[`docs/api-test-report.html`](docs/api-test-report.html).
+#### POST — Menambahkan Matakuliah
+
+![cURL POST Matakuliah](image/cURL-post-mk.png)
+
+#### PUT — Memperbarui Matakuliah
+
+![cURL PUT Matakuliah](image/cURL-put-mk.png)
+
+#### DELETE — Menghapus Matakuliah
+
+![cURL DELETE Matakuliah](image/cURL-delete-mk.png)
+
+### Pengujian dengan Postman
+
+#### GET — Menampilkan seluruh Mahasiswa
+
+![Postman GET Mahasiswa](image/postman-get-mhs.png)
+
+#### POST — Menambahkan Mahasiswa
+
+![Postman POST Mahasiswa](image/postman-post-mhs.png)
+
+#### GET — Menampilkan seluruh Matakuliah
+
+![Postman GET Matakuliah](image/postman-get-mk.png)
+
+#### POST — Menambahkan Matakuliah
+
+![Postman POST Matakuliah](image/postman-post-mk.png)
+
+#### PUT — Memperbarui Matakuliah
+
+![Postman PUT Matakuliah](image/postman-put-mk.png)
+
+#### DELETE — Menghapus Matakuliah
+
+![Postman DELETE Matakuliah](image/postman-delete-mk.png)
 
 ## Struktur Penting
 

@@ -15,13 +15,13 @@ def seed(dbsession):
                     jurusan="Teknik Informatika",
                 ),
                 Mahasiswa(
-                    nim="124140001",
-                    nama="Ayu Lestari",
+                    nim="124140106",
+                    nama="Frichintia Niken Gita Natasyah",
                     jurusan="Teknik Informatika",
                 ),
                 Mahasiswa(
-                    nim="124140002",
-                    nama="Budi Santoso",
+                    nim="124190009",
+                    nama="Nivalesha",
                     jurusan="Teknik Informatika",
                 ),
             ]
@@ -32,19 +32,19 @@ def seed(dbsession):
             [
                 Matakuliah(
                     kode_mk="IF2110",
-                    nama_mk="Pemrograman Web",
+                    nama_mk="Pengembangan Aplikasi Web",
                     sks=3,
-                    semester=3,
+                    semester=5,
                 ),
                 Matakuliah(
                     kode_mk="IF2120",
-                    nama_mk="Basis Data",
-                    sks=4,
-                    semester=3,
+                    nama_mk="Pengembangan Aplikasi Mobile",
+                    sks=3,
+                    semester=5,
                 ),
                 Matakuliah(
                     kode_mk="IF3140",
-                    nama_mk="Rekayasa Perangkat Lunak",
+                    nama_mk="Jaringan Komputer",
                     sks=3,
                     semester=5,
                 ),
