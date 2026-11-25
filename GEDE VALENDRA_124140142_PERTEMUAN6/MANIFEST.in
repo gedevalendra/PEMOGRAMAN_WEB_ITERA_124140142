@@ -1,0 +1,2 @@
+recursive-include pyramid_mahasiswa *.py *.mako
+
